@@ -58,9 +58,8 @@ CFLAGS += -DSIGMA_DUT_VER=\"$(SIGMA_VER)\"
 include $(CLEAR_VARS)
 LOCAL_MODULE := sigma_dut
 QCOM_WLAN_ROOT ?= hardware/qcom/wlan
-ifeq ($(PRODUCT_VENDOR_MOVE_ENABLED), true)
+# Packet capture and Wi-Fi keystore dependencies are vendor-only.
 LOCAL_VENDOR_MODULE := true
-endif
 LOCAL_CLANG := true
 LOCAL_MODULE_TAGS := optional
 LOCAL_C_INCLUDES += \
@@ -92,11 +91,7 @@ endif
 CFLAGS += -Wno-unused-parameter
 LOCAL_C_INCLUDES += system/security/keystore/include/keystore
 LOCAL_SHARED_LIBRARIES += liblog
-ifeq ($(PRODUCT_VENDOR_MOVE_ENABLED), true)
 LOCAL_SHARED_LIBRARIES += libkeystore-engine-wifi-hidl libkeystore-wifi-hidl
-else
-LOCAL_SHARED_LIBRARIES += libkeystore_binder
-endif
 LOCAL_SRC_FILES := $(OBJS)
 LOCAL_HEADER_LIBRARIES := libcutils_headers
 LOCAL_CFLAGS := $(CFLAGS)
