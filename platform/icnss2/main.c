@@ -674,7 +674,7 @@ static int icnss_get_temperature(struct icnss_priv *priv, int *temp)
 	icnss_pr_dbg("Thermal Sensor is %s\n", tsens);
 	thermal_dev = thermal_zone_get_zone_by_name(tsens);
 	if (IS_ERR(thermal_dev)) {
-		icnss_pr_err("Fail to get thermal zone. ret: %d",
+		icnss_pr_err("Fail to get thermal zone. ret: %ld",
 			     PTR_ERR(thermal_dev));
 		return PTR_ERR(thermal_dev);
 	}
@@ -1494,7 +1494,7 @@ static int icnss_event_soc_wake_release(struct icnss_priv *priv, void *data)
 
 	if (atomic_dec_if_positive(&priv->soc_wake_ref_count)) {
 		icnss_pr_soc_wake("Wake release not called. Ref count: %d",
-				  priv->soc_wake_ref_count);
+				  atomic_read(&priv->soc_wake_ref_count));
 		return 0;
 	}
 
@@ -2569,7 +2569,7 @@ static void icnss_pdr_notifier_cb(int state, char *service_path, void *priv_cb)
 	if (!priv)
 		return;
 
-	icnss_pr_dbg("PD service notification: 0x%lx state: 0x%lx\n",
+	icnss_pr_dbg("PD service notification: 0x%x state: 0x%lx\n",
 		     state, priv->state);
 
 	switch (state) {
@@ -3750,7 +3750,7 @@ int icnss_smmu_map(struct device *dev,
 	priv->smmu_iova_ipa_current = iova + len;
 	*iova_addr = (uint32_t)(iova + paddr - rounddown(paddr, PAGE_SIZE));
 
-	icnss_pr_dbg("IOVA addr mapped to physical addr %lx\n", *iova_addr);
+	icnss_pr_dbg("IOVA addr mapped to physical addr %x\n", *iova_addr);
 	return 0;
 }
 EXPORT_SYMBOL(icnss_smmu_map);
@@ -4280,9 +4280,9 @@ static int icnss_resource_parse(struct icnss_priv *priv)
 			ret = -ENOMEM;
 			goto put_clk;
 		}
-		icnss_pr_dbg("MSI Addr pa: %pa, iova: 0x%pK\n",
+		icnss_pr_dbg("MSI Addr pa: %pa, iova: %pad\n",
 			     &priv->msi_addr_pa,
-			     priv->msi_addr_iova);
+			     &priv->msi_addr_iova);
 
 		ret = of_property_read_u32_index(dev->of_node,
 						 "interrupts",
