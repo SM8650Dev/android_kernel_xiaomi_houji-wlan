@@ -5396,7 +5396,7 @@ int wlan_ipa_wdi_opt_dpath_flt_add_cb(
 	ipa_info("opt_dp: op %d, pdev_id %d. num_flts %d",
 		 dp_flt_param->op, dp_flt_param->pdev_id, num_flts);
 	for (i = 0; i < num_flts; i++)
-		ipa_info("version %d, valid %d, src addr_ %08lx, evnt reqd %d",
+		ipa_info("version %d, valid %d, src addr_ %pI4, evnt reqd %d",
 			 dp_flt_param->flt_addr_params[i].l3_type,
 			 dp_flt_param->flt_addr_params[i].valid,
 			 dp_flt_param->flt_addr_params[i].src_ipv4_addr,
@@ -5471,7 +5471,7 @@ int wlan_ipa_wdi_opt_dpath_flt_rem_cb(
 	ipa_info("opt_dp: op %d, pdev_id %d. num_flts %d",
 		 dp_flt_params->op, dp_flt_params->pdev_id, num_flts);
 	for (i = 0; i < num_flts; i++)
-		ipa_info("version %d, valid %d, src addr_ %08lx, evnt_reqd %d",
+		ipa_info("version %d, valid %d, src addr_ %pI4, evnt_reqd %d",
 			 dp_flt_params->flt_addr_params[i].l3_type,
 			 dp_flt_params->flt_addr_params[i].valid,
 			 dp_flt_params->flt_addr_params[i].src_ipv4_addr,
