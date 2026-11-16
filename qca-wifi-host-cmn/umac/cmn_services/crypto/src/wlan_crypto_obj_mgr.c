@@ -333,7 +333,7 @@ static void crypto_free_list(struct crypto_psoc_priv_obj *psoc, void *ptr)
 		qdf_mem_free(crypto_entry);
 		if (!qdf_atomic_read(&psoc->crypto_key_cnt))
 			crypto_debug("Invalid crypto_key_cnt %d",
-				     psoc->crypto_key_cnt);
+				     qdf_atomic_read(&psoc->crypto_key_cnt));
 		else
 			qdf_atomic_dec(&psoc->crypto_key_cnt);
 	}
